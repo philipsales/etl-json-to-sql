@@ -1,0 +1,26 @@
+schema:
+- db: kobo_data 
+  tables:
+  - table: demographics 
+    collection: demographics 
+    columns:
+    - Name: _id
+      type: bson.ObjectId
+      SqlName: _id
+      SqlType: varchar
+    - Name: demographics.address.barangay
+      type: string
+      SqlName: demographics.address.barangay
+      SqlType: varchar
+    - Name: demographics.address.lot_or_house_number
+      type: string
+      SqlName: demographics.address.lot_or_house_number
+      SqlType: varchar
+    - Name: demographics.address.country
+      type: string
+      SqlName: demographics.address.country
+      SqlType: varchar
+    - Name: demographics.address.postal_code
+      type: string
+      SqlName: demographics.address.postal_code
+      SqlType: varchar

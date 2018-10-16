@@ -1,0 +1,49 @@
+[
+  {
+    "address": {
+      "barangay": "burgos gengos",
+      "country": "Philippines",
+      "lot_or_house_number": "",
+      "postal_code": "5022",
+      "province": "iloilo"
+    },
+    "email_address": null,
+    "family_members": [
+      "9c4de471-a33a-4bfa-899c-3fd63613042e",
+      "e8fc7444-8316-4e26-9d67-b66b475b269b",
+      "73c49cac-16f7-4b93-908b-4617d0bca91c",
+      "fd90bfb0-0d06-4e99-840a-60cee0b28cff",
+      "0004d599-f8c8-46c4-9476-b51debae7271",
+      "9497f7af-642e-4c8e-b61d-aa9372cc6f5d"
+    ],
+    "health_informations": [],
+    "households": [],
+    "id": "0004d599-f8c8-46c4-9476-b51debae7271",
+    "identification": {
+      "id1": {
+        "identifier": null,
+        "type": "4Ps"
+      },
+      "id2": {
+        "identifier": null,
+        "type": "4Ps"
+      },
+      "id3": {
+        "identifier": null,
+        "type": "4Ps"
+      }
+    },
+    "organization": "Guimbal RHU",
+    "profile_picture": {
+      "name": "6e74d789-00f3-4800-8528-ab22cbea7ba4",
+      "path": "/data/data/com.awh.health.curis/app_images/images_resident"
+    },
+    "profiles": [],
+    "registered_at": "05/17/2018 at 09:23:07 am GMT+08:00",
+    "type": "user-resident",
+    "user_cam": {
+      "id": "burgos-gengos@gmail.com",
+      "owner": "burgos-gengos@gmail.com"
+    }
+  }
+]

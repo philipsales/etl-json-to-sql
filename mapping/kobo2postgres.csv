@@ -1,0 +1,4 @@
+address.barangay,varchar,demographics.address.barangay
+address.country,varchar,demographics.address.country  
+address.postal_code,varchar,demographics.address.postal_code
+address.lot_or_house_number,varchar,demographics.address.lot_or_house_number
