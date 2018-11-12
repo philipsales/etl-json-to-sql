@@ -65,7 +65,42 @@
       "f982c4f4-3478-48be-b73e-3ebbcf466241",
       "00066299-81c1-4311-970b-8f82dca8640b"
     ],
-    "health_informations": [],
+    "health_informations": [
+       {
+        "allergies": "",
+        "blood_pressure": {
+          "first_reading": {
+            "diastole": "",
+            "systole": ""
+          },
+          "second_reading": {
+            "diastole": "",
+            "systole": ""
+          },
+          "third_reading": {
+            "diastole": "",
+            "systole": ""
+          }
+        },
+        "blood_sign": "I don't know",
+        "blood_sugar": 0,
+        "blood_type": "O",
+        "date_updated": "04/30/2018 at 04:34:51 PM GMT+08:00",
+        "diagnosed": [],
+        "exercise_in_a_week": "0 to 1 hour",
+        "family_history": [
+          "Hypertension"
+        ],
+        "fruits_in_a_week": "1",
+        "height": 52,
+        "high_cost_medicine": "No",
+        "maintenance_drugs": "No",
+        "smoking_habit": "Never",
+        "vegetables_in_a_week": "2",
+        "waist_circumference": 29,
+        "weight": 45
+      }
+    ],
     "households": [
       {
         "amenities_present_in_house": [
