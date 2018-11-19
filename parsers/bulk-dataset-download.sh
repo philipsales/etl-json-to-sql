@@ -47,20 +47,20 @@ echo `pwd`
 echo $src_dir
 echo '-----'
 
-mkdir -p $folder/patient
-cd  $folder/patient
+mkdir -p $folder/Patient
+cd  $folder/Patient
 wget $patient_data
 #curl -O $patient_data 
 wait
 
-mkdir -p $folder/condition
-cd  $folder/condition
-wget $condition
+mkdir -p $folder/Condition
+cd  $folder/Condition
+wget $condition_data
 #curl -O $condition 
 wait
 
-mkdir -p $folder/procedure
-cd  $folder/procedure
+mkdir -p $folder/Procedure
+cd  $folder/Procedure
 wget $procedure_data
 #curl -O $procedure_data 
 wait
