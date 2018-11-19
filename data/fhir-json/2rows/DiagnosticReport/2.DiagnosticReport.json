@@ -1,0 +1,30 @@
+{
+  "resourceType": "DiagnosticReport",
+  "id": "9a02c075-836a-4bfe-9290-a516f6d9fe3d",
+  "patientId": "ddf5ae5c-5646-4a76-9efd-f7e697f3b728",
+  "status": "final",
+  "code": {
+    "coding": [
+      {
+        "system": "http://loinc.org",
+        "code": "57698-3",
+        "display": "Lipid Panel"
+      }
+    ],
+    "text": "Lipid Panel"
+  },
+  "subject": {
+    "reference": "Patient/ddf5ae5c-5646-4a76-9efd-f7e697f3b728"
+  },
+  "context": {
+    "reference": "Encounter/0bb96e56-84fa-45e0-b883-db67d3173ce1"
+  },
+  "effectiveDateTime": "2013-06-08T16:33:20+00:00",
+  "issued": "2013-06-08T16:33:20.246+00:00",
+  "result": [
+    {
+      "reference": "Observation/8f3e0ce3-f617-40ff-9c64-0531c195adb0",
+      "display": "Low Density Lipoprotein Cholesterol"
+    }
+  ]
+}

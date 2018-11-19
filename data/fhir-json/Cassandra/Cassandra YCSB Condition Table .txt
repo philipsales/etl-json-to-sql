@@ -1,0 +1,12 @@
+create table fhir.condition (
+"assertedDate" varchar,
+"clinicalStatus" varchar,
+"code.coding" varchar,
+"code.text" varchar,
+"context.reference" varchar,
+"id" varchar,
+"onsetDateTime" varchar,
+"patientId" varchar,
+"resourceType" varchar,
+"verificationStatus" varchar
+);

@@ -1,0 +1,13 @@
+create table fhir.diagnosticreport (
+"code.coding" ,
+"code.text" ,
+"context.reference" ,
+"effectiveDateTime" ,
+"id" ,
+"issued" ,
+"patientId" ,
+"resourceType" ,
+"result" ,
+"status" ,
+"subject.reference"
+);

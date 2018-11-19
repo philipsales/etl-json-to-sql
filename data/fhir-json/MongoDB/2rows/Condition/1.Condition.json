@@ -1,0 +1,22 @@
+{
+  "resourceType": "Condition",
+  "id": "91aeb47f-f3d8-4c31-8d12-d643c7652539",
+  "patientId": "ddf5ae5c-5646-4a76-9efd-f7e697f3b728",
+  "clinicalStatus": "active",
+  "verificationStatus": "confirmed",
+  "code": {
+    "coding": [
+      {
+        "system": "http://snomed.info/sct",
+        "code": “14055000",
+        "display": "Otitis Media (disorder)"
+      }
+    ],
+    "text": "Otitis Media (disorder)"
+  },
+  "context": {
+    "reference": "Encounter/35c74ede-6f2a-48a8-9ee8-741fd3c31f2e"
+  },
+  "onsetDateTime": "1949-05-09T16:33:20+00:00",
+  "assertedDate": "1949-05-09T16:33:20+00:00"
+}
