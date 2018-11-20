@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[158]:
+# In[11]:
 import sys
 from os import path
 from os import walk
@@ -9,10 +9,10 @@ import re
 import pandas as pd
 import json
 import logging
-import redis
+import subprocess
 
 
-# In[160]:
+# In[14]:
 class FileIterator:
 
     def __init__(self, input_root, input_folders, max_item):
@@ -54,7 +54,8 @@ class FileIterator:
         return path_db_workload_files
 
 
-# In[104]:
+
+# In[15]:
 
 
 class ContentReader():
@@ -64,33 +65,15 @@ class ContentReader():
         
     def get_data(self):
         data = []
-        tmp = ''
-        index=0
-
-        pool = redis.ConnectionPool(host='0.0.0.0', port=6379, db=0)
-        r = redis.Redis(connection_pool=pool)
-
-
         for filename_path in self.filename_paths:
-            print('index :', index) 
-            index += 1
+            
+            json = ReadJSON()
+            data.append(json.read(filename_path))
 
-            read_json = ReadJSON()
-            data = read_json.read(filename_path)
-            key = data['resourceType'] + ':' + data['id']
-            print(key)
+        return data
 
 
-            try:
-                result = json.loads(r.execute_command('JSON.SET', key, '.', json.dumps(data)))
-                print(result)
-            except Exception as e:
-                print(e)
-                result = e
-
-
-
-# In[103]:
+# In[9]:
 
 
 class ReadJSON():
@@ -99,53 +82,50 @@ class ReadJSON():
     def read(file_path):
         with open(file_path) as f:
             d = json.load(f)
-        return d 
+        return d
 
 
-# In[162]:
+# In[121]:
 
 
-class RedisImport():
+class MongoImport():
     
     @staticmethod
-    def insert_all(data):
-        index=0
+    def insert_all(dir_paths):
+        database = 'ycsb'
+        index = 0
         result = ''
 
-        pool = redis.ConnectionPool(host='0.0.0.0', port=6379, db=0)
-        r = redis.Redis(connection_pool=pool)
+        for path in dir_paths:
+            print('remaining files: ', len(dir_paths)-index)
+            filename = path.split('/')[-1]
+            collection = filename.split('.')[-2].lower()
 
-        key = data['resourceType'] + ':' + data['id']
-        print(key)
-
-        try:
-            result = json.loads(r.execute_command('JSON.SET', key, '.', json.dumps(data)))
-            print('Result: ',result)
-        except Exception as e:
-            print('Exception error:', e)
-            result = e
+            try:
+                cmd = "mongoimport --db %s --collection %s --type json --file '%s'" % (database, collection, path)
+                result = subprocess.run(cmd, shell=True, stdout=subprocess.PIPE)
+                result.stdout
+                index += 1
+            except Exception as e:
+                print(e)
+                result = e
 
         return result
 
 
-# In[163]:
+
+# In[120]:
 
 root_dir='/root/etl-json-to-sql/'
 data_dir='/root/data'
 
 input_data_folders = ['Patient']
 input_data_dir = data_dir + '/json/1M'
-max_count = 1000000
+max_count = 100000
+
 
 files = FileIterator(input_data_dir, input_data_folders, max_count)
 input_dirpaths = files.iterate_filenames()
 
-files = ContentReader(input_dirpaths)
-files.get_data()
-
-
-# In[ ]:
-
-
-
+result = MongoImport.insert_all(input_dirpaths)
 
