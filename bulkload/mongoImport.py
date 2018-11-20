@@ -121,7 +121,7 @@ data_dir='/root/data'
 
 input_data_folders = ['Patient']
 input_data_dir = data_dir + '/json/1M'
-max_count = 100000
+max_count = 1000000
 
 
 files = FileIterator(input_data_dir, input_data_folders, max_count)

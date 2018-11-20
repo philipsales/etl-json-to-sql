@@ -37,7 +37,7 @@ class FileIterator:
         path_db_workload_files = []     
         for path_db in path_dbs:
             for root, dirs, files in walk(path_db):  
-                index = 0;
+                index = 0
                 for filename in files:
                     print('remaining files: ', len(files)-index)
 
@@ -142,6 +142,7 @@ input_dirpaths = files.iterate_filenames()
 
 files = ContentReader(input_dirpaths)
 files.get_data()
+
 
 
 # In[ ]:
