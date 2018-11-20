@@ -1,0 +1,143 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[158]:
+
+
+import sys
+from os import path
+from os import walk
+import re
+import pandas as pd
+import json
+import logging
+import redis
+
+
+# In[160]:
+
+
+class FileIterator:
+
+    def __init__(self, input_root, input_folders):
+        self.input_data_dir = input_root
+        self.input_folders = input_folders
+        
+    def iterate_filenames(self):
+        resources = self.__iterate_dirfiles()
+        files = self.__iterate_file(resources)
+        return files
+        
+    def __iterate_dirfiles(self):
+        path_files = []
+        file_names = self.input_folders
+
+        for file in file_names:
+            path_files.append(input_data_dir + '/' + file)
+        return path_files
+    
+    def __iterate_file(self, path_dbs):
+        path_db_workload_files = []     
+        for path_db in path_dbs:
+            for root, dirs, files in walk(path_db):  
+                index = 0;
+                for filename in files:
+                    print('remaining files: ', len(files)-index)
+
+                    if index < 100000:
+                        if not filename.endswith(('.json~', '.swp')):
+                            print('valid file: ',filename)
+                            path_db_workload_files.append(root + '/' + filename)
+                            index += 1
+                        if ''.join(dirs) != '.ipynb_checkpoints':
+                            pass
+                    else:
+                        break
+                    
+        return path_db_workload_files
+
+
+# In[104]:
+
+
+class ContentReader():
+    
+    def __init__(self, filename_paths):
+        self.filename_paths = filename_paths
+        
+    def get_data(self):
+        data = []
+        for filename_path in self.filename_paths:
+            
+            json = ReadJSON()
+            data.append(json.read(filename_path))
+
+        return data
+
+
+# In[103]:
+
+
+class ReadJSON():
+    
+    @staticmethod
+    def read(file_path):
+        with open(file_path) as f:
+            d = json.load(f)
+        return d
+
+
+# In[162]:
+
+
+class RedisImport():
+    
+    @staticmethod
+    def insert_all(data):
+        
+        pool = redis.ConnectionPool(host='0.0.0.0', port=6379, db=0)
+        #r = redis.Redis(host='0.0.0.0', port=6379, db=0)
+        r = redis.Redis(connection_pool=pool)
+        print(r)
+        
+        index=0
+
+        for item in data:
+            key = item['resourceType'] + ':' + item['id']
+            print(key)
+
+            try:
+                print('remaining files: ',len(data) - index)
+                index += 1
+                result = json.loads(r.execute_command('JSON.SET', key, '.', json.dumps(item)))
+                print(result)
+            except Exception as e:
+                #print(key)
+                print(e)
+                result = e
+        return result
+
+
+# In[163]:
+
+
+root_dir='/root/etl-json-to-sql/'
+
+input_data_folders = ['Patient']
+input_data_dir = root_dir + 'output/fhir-json/1M'
+
+files = FileIterator(input_data_dir, input_data_folders)
+input_dirpaths = files.iterate_filenames()
+
+data = []
+files = ContentReader(input_dirpaths)
+data = files.get_data()
+
+result = RedisImport.insert_all(data)
+
+
+# In[ ]:
+
+
+
+
