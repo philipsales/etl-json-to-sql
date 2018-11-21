@@ -72,7 +72,8 @@ class ContentReader():
 
 
         for filename_path in self.filename_paths:
-            print('index :', index) 
+            counter = 'remaining files %i out of %i' % ( (len(self.filename_paths) - index), (len(self.filename_paths)) )
+            print(counter)
             index += 1
 
             read_json = ReadJSON()
