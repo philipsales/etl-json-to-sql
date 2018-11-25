@@ -197,12 +197,12 @@ class CassandraImport():
 
 # In[11]:
 
-
-root_dir = '../'
+root_dir='/root/etl-json-to-sql/'
+data_dir='/root/data'
 
 input_data_folders = ['Patient']
-input_data_dir = root_dir + 'output/fhir-json-cassandra/9rows'
-max_count = 100
+input_data_dir = data_dir + '/json-cassandra/1M'
+max_count = 100000
 
 files = FileIterator(input_data_dir, input_data_folders, max_count)
 input_dirpaths = files.iterate_filenames()
