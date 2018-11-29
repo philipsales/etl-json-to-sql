@@ -1,60 +1,21 @@
 
 # coding: utf-8
 
-# In[11]:
+# In[1]:
 
 
 import sys
 import os
-from os import path, walk
-#from os import path
-#from os import walk
+from os import path
+from os import walk
 
 import re
 import json
-from collections import OrderedDict
 
 
 # ## Flatten
 
-# In[4]:
-
-
-def flattenDict(d, result=None):
-    
-    if result is None:
-        result = {}
-        
-    for key, value in list(d.items()):
-        value = d[key]
-        
-        #TODO: OPtimiza strip clean
-        if isinstance(value, str):
-            value = value.replace("'", ' ')
-            
-        if isinstance(value, dict):
-            value1 = {}
-            for keyIn in value:
-                value1[".".join([key,keyIn])]=value[keyIn.lower()]
-            flattenDict(value1, result)
-        elif isinstance(value, (list, tuple)):  
-            for indexB, element in enumerate(value):
-                if isinstance(element, dict):
-                    value1 = {}
-                    index = 0
-                    for keyIn in element:
-                        newkey = ".".join([key,keyIn])        
-                        value1[".".join([key,keyIn])]=value[indexB][keyIn]
-                        index += 1
-                    for keyA in value1:
-                        flattenDict(value1, result)   
-        else: 
-            result[key.lower()]=value
-
-    return OrderedDict(sorted(result.items()))
-
-
-# In[6]:
+# In[2]:
 
 
 class MakeDirectory:
@@ -66,7 +27,6 @@ class MakeDirectory:
         dirName = ''
         
         if isinstance(folders, list):
-            
             for folder in folders:
                 dirName =  self.path + '/' + folder
                 try:
@@ -80,7 +40,7 @@ class MakeDirectory:
 
 # ## Folder directory Iterator
 
-# In[13]:
+# In[3]:
 
 
 class FileIterator:
@@ -91,7 +51,6 @@ class FileIterator:
         
     def iterate_filenames(self):
         resources = self.__iterate_dirfiles()
-        
         files = self.__iterate_file(resources)
         
         return files
@@ -123,7 +82,7 @@ class FileIterator:
 
 # ## Filecontent reader
 
-# In[15]:
+# In[4]:
 
 
 class ContentReader():
@@ -139,14 +98,17 @@ class ContentReader():
             
             print('remaining files: ', len(self.filename_paths) - index)
             
-            read_json = ReadJSON()
-            resource = read_json.read(filename_path)
+            resource = ReadJSON().read(filename_path)
             
-            destination_path = '%s/%s' % (self.destination_path, resource['resourcetype'] )
+            destination_path = '%s/%s' % (self.destination_path, resource['resourceType'] )
 
-            resource_id = resource['id']
-             
-            f = open(destination_path + '/' + resource_id + '.' + resource['resourcetype'] + '.json', 'w')
+            resource_id = resource['id'].split('-')[0]
+            
+            if resource['resourceType'] != 'Patient':
+                patient_id = resource['subject']['reference']
+                resource['patientId'] = patient_id.split(sep="/")[-1]
+            
+            f = open(destination_path + '/' + resource_id + '.' + resource['resourceType'] + '.json', 'w')
             f.write(json.dumps(resource))
             print('writing: ', resource_id)
             f.close()
@@ -157,39 +119,31 @@ class ContentReader():
 
 # ## File Open
 
-# In[24]:
+# In[5]:
 
 
 class ReadJSON():
     
     @staticmethod
     def read(file_path):
-        new_patient_id = ''
-        
         with open(file_path) as f:
             d = json.load(f)
-            
-            flat_d = flattenDict(d)
-            
-            #TODO: Create separate Fx
-            if flat_d['resourcetype'] != 'Patient':
-                new_patient_id = flat_d['subject.reference'].split(sep="/")[-1]
-                flat_d.pop('subject.reference', None)
-                flat_d['patientid'] = new_patient_id
-            
-        return flat_d
+        return d
 
 
-# In[25]:
+# ## Print Flatten FHIR JSON
+
+# In[6]:
 
 
 root_dir='../'
 data_dir='../data'
 
-input_data_folders = ['Patient','Condition','DiagnosticReport']
 input_data_dir = data_dir + '/fhir-json/9rows'
+input_data_folders = ['DiagnosticReport','Patient','Condition']
 
-output_directory = root_dir + '/output/fhir-json-cassandra/9rows'
+
+output_directory = root_dir + 'output/fhir-json-mongodb/9rows'
 
 directory = MakeDirectory(output_directory)
 directory.create_dir(input_data_folders)
